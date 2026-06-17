@@ -24,3 +24,32 @@ def init_db():
 
     conn.commit()
     conn.close()
+
+
+def save_files(files):
+    conn = sqlite3.connect(DB_PATH)
+
+    for file in files:
+        conn.execute("""
+            INSERT INTO files (
+                relative_path,
+                size,
+                modified_time,
+                extension,
+                exists_flag
+            )
+            VALUES (?, ?, ?, ?, 1)
+            ON CONFLICT(relative_path) DO UPDATE SET
+                size = excluded.size,
+                modified_time = excluded.modified_time,
+                extension = excluded.extension,
+                exists_flag = 1
+        """, (
+            file["relative_path"],
+            file["size"],
+            file["modified_time"],
+            file["extension"]
+        ))
+
+    conn.commit()
+    conn.close()

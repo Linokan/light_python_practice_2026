@@ -6,11 +6,13 @@ def scan_folder(folder):
 
     for file_path in folder.rglob("*"):
         if file_path.is_file():
+            stat = file_path.stat()
 
             files_data.append({
-                "path": str(file_path),
-                "size": file_path.stat().st_size,
-                "extension": file_path.suffix,
+                "relative_path": str(file_path.relative_to(folder)),
+                "size": stat.st_size,
+                "modified_time": stat.st_mtime,
+                "extension": file_path.suffix
             })
 
     return files_data
