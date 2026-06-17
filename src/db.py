@@ -53,3 +53,18 @@ def save_files(files):
 
     conn.commit()
     conn.close()
+
+
+def get_all_files():
+    conn = sqlite3.connect(DB_PATH)
+
+    cursor = conn.execute("""
+        SELECT relative_path, size, extension
+        FROM files
+    """)
+
+    result = cursor.fetchall()
+
+    conn.close()
+
+    return result

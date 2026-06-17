@@ -1,7 +1,7 @@
 import argparse
 from pathlib import Path
 
-from db import init_db, save_files
+from db import init_db, save_files, get_all_files
 
 from scanner import scan_folder
 
@@ -39,6 +39,10 @@ def main():
     save_files(files)
 
     print("Данные сохранены в SQLite")
+    print("\nФайлы из базы:")
+
+    for file in get_all_files():
+        print(file)
 
     print("Программа запущена")
     print("Папка для сканирования:", folder)
