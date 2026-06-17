@@ -3,6 +3,8 @@ from pathlib import Path
 
 from db import init_db
 
+from scanner import scan_folder
+
 
 def main():
     parser = argparse.ArgumentParser(
@@ -26,6 +28,13 @@ def main():
         return
 
     init_db()
+
+    files = scan_folder(folder)
+
+    print(f"Найдено файлов: {len(files)}")
+
+    for file in files:
+        print(file["path"])
 
     print("Программа запущена")
     print("Папка для сканирования:", folder)
