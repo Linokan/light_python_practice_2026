@@ -1,4 +1,5 @@
 from pathlib import Path
+from duplicates import calculate_file_hash
 
 
 def scan_folder(folder, extension_filter=None):
@@ -22,7 +23,8 @@ def scan_folder(folder, extension_filter=None):
                 "relative_path": str(file_path.relative_to(folder)),
                 "size": stat.st_size,
                 "modified_time": stat.st_mtime,
-                "extension": file_path.suffix
+                "extension": file_path.suffix,
+                "file_hash": calculate_file_hash(file_path)
             })
 
     return files_data

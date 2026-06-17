@@ -28,7 +28,7 @@ def init_db():
 
 def save_files(files):
     conn = sqlite3.connect(DB_PATH)
-    
+
     conn.execute("DELETE FROM files")
 
     for file in files:
@@ -38,19 +38,16 @@ def save_files(files):
                 size,
                 modified_time,
                 extension,
+                file_hash,
                 exists_flag
             )
-            VALUES (?, ?, ?, ?, 1)
-            ON CONFLICT(relative_path) DO UPDATE SET
-                size = excluded.size,
-                modified_time = excluded.modified_time,
-                extension = excluded.extension,
-                exists_flag = 1
+            VALUES (?, ?, ?, ?, ?, 1)
         """, (
             file["relative_path"],
             file["size"],
             file["modified_time"],
-            file["extension"]
+            file["extension"],
+            file["file_hash"]
         ))
 
     conn.commit()
@@ -61,7 +58,7 @@ def get_all_files():
     conn = sqlite3.connect(DB_PATH)
 
     cursor = conn.execute("""
-        SELECT relative_path, size, extension
+        SELECT relative_path, extension, file_hash
         FROM files
     """)
 
