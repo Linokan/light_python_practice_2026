@@ -1,11 +1,21 @@
 from pathlib import Path
 
 
-def scan_folder(folder):
+def scan_folder(folder, extension_filter=None):
     files_data = []
 
     for file_path in folder.rglob("*"):
+        if ".git" in file_path.parts:
+            continue
+
+        if "__pycache__" in file_path.parts:
+            continue
+
         if file_path.is_file():
+
+            if extension_filter and file_path.suffix != extension_filter:
+                continue
+
             stat = file_path.stat()
 
             files_data.append({

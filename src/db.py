@@ -28,6 +28,8 @@ def init_db():
 
 def save_files(files):
     conn = sqlite3.connect(DB_PATH)
+    
+    conn.execute("DELETE FROM files")
 
     for file in files:
         conn.execute("""

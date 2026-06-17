@@ -16,6 +16,11 @@ def main():
         help="Путь к папке для сканирования"
     )
 
+    parser.add_argument(
+        "--ext",
+        help="Фильтр по расширению"
+    )
+
     args = parser.parse_args()
     folder = Path(args.folder)
 
@@ -29,7 +34,7 @@ def main():
 
     init_db()
 
-    files = scan_folder(folder)
+    files = scan_folder(folder, args.ext)
 
     print(f"Найдено файлов: {len(files)}")
 
