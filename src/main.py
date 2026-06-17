@@ -2,8 +2,8 @@ import argparse
 from pathlib import Path
 
 from db import init_db, save_files, get_all_files
-
 from scanner import scan_folder
+from duplicates import find_duplicates
 
 
 def main():
@@ -42,6 +42,19 @@ def main():
         print(file["relative_path"])
     
     save_files(files)
+
+    duplicates = find_duplicates(files)
+
+    print("\nДубликаты:")
+
+    if not duplicates:
+        print("Не найдены")
+    else:
+        for file_hash, paths in duplicates.items():
+            print(f"\nХэш: {file_hash}")
+
+        for path in paths:
+            print(f"  {path}")
 
     print("Данные сохранены в SQLite")
     print("\nФайлы из базы:")
