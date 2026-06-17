@@ -57,13 +57,6 @@ def main():
             print(f"  {path}")
 
     print("Данные сохранены в SQLite")
-    print("\nФайлы из базы:")
-
-    for file in get_all_files():
-        print(file)
-
-    print("Программа запущена")
-    print("Папка для сканирования:", folder)
 
 
 if __name__ == "__main__":
